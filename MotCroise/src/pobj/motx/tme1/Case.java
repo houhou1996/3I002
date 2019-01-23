@@ -26,10 +26,10 @@ public int getCol() {
 	return col;
 }
 public boolean isVide() {
-	return c == ' ';
+	return this.c == ' ';
 }
 public boolean isPleine() {
-	return c == '*';
+	return this.c == '*';
 }
 
 
