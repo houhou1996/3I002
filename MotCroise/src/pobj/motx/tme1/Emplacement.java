@@ -6,15 +6,21 @@ import java.util.List;
 public class Emplacement {
 	List<Case> lettres;
 	public Emplacement() {
-		lettres = new ArrayList();
+		lettres = new ArrayList<Case>();
 	}
 
 	public String toString() {
 		String str ="";
 		for (Case case1 : lettres) {
-			str+=case1;
+//			if(!case1.isPleine() && !case1.isVide())
+				str+=case1.getChar();
 		}
 		return str;
+	}
+	public Case getCase(int i) {
+		if(lettres != null)
+			return lettres.get(i);
+		return null;
 	}
 	public int size() {
 		return lettres.size();

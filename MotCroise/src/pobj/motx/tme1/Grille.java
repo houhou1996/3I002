@@ -10,13 +10,10 @@ public class Grille {
 			for (int j = 0; j < largeur; j++) {
 				grille[i][j] = new Case(i, j, ' ');
 			}
-			
 		}
 	}
 	public Case getCase(int lig, int col) {
 		return grille[lig][col];
-    
-	
 	}
 
 	public String toString() {

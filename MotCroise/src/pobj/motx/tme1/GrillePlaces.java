@@ -34,13 +34,13 @@ public class GrillePlaces {
 		return str;
 	}
 	private List<Case> getLig(int lig){
-		List<Case> liste = new ArrayList();
+		List<Case> liste = new ArrayList<Case>();
 		for (int i = 0; i < grille.nbCol(); i++) 
 			liste.add(grille.getCase(lig, i));
 		return liste;
 	}
 	private List<Case> getCol(int col){
-		List<Case> liste = new ArrayList();
+		List<Case> liste = new ArrayList<Case>();
 		for (int i = 0; i < grille.nbLig(); i++) 
 			liste.add(grille.getCase(i, col));
 		return liste;
@@ -59,7 +59,16 @@ public class GrillePlaces {
 		if(e.size()> 1)
 			places.add(e);
 	}
+	public int max() {
+		int max = 0;
+		for (Emplacement emplacement : places) {
+			if(emplacement != null && emplacement.size() > max)
+				max = emplacement.size();
+		}
+		return max;
+		}
+	}
 	
 	
 
-}
+
