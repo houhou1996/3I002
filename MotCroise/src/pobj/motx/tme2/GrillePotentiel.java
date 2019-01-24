@@ -27,10 +27,10 @@ public class GrillePotentiel {
 			}
 			motPot.add(d);	
 		}
-		
-		
 	}
-	
+public GrillePotentiel fixer(int m, String soluce) {
+		return new GrillePotentiel(grille.fixer(m, soluce),dicoComplet);
+	}
 	public boolean isDead() {
 		for (int i = 0; i < grille.getPlaces().size(); i++) {
 			if(motPot.get(i).size() == 0)

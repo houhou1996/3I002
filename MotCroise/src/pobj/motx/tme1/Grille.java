@@ -32,7 +32,6 @@ public class Grille {
 					g.getCase(i, j).setChar(getCase(i, j).getChar());
 				
 			}
-			
 		}
 		return g;
 	}

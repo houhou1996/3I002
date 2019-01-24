@@ -19,6 +19,15 @@ public class GrillePlaces {
 			cherchePlaces(getCol(i));
 		}
 	}
+	public GrillePlaces fixer(int m, String soluce) {
+		GrillePlaces g = new GrillePlaces(grille.copy());	
+		for (int i = 0; i < soluce.length(); i++) {
+			g.getPlaces().get(m).getCase(i).setChar(soluce.charAt(i));
+			}
+		return g;
+	}
+	
+	
 	public List<Emplacement> getPlaces(){
 		return places;
 	}
@@ -59,14 +68,7 @@ public class GrillePlaces {
 		if(e.size()> 1)
 			places.add(e);
 	}
-	public int max() {
-		int max = 0;
-		for (Emplacement emplacement : places) {
-			if(emplacement != null && emplacement.size() > max)
-				max = emplacement.size();
-		}
-		return max;
-		}
+	
 	}
 	
 	
