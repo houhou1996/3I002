@@ -36,7 +36,8 @@ public class GrillePotentiel {
 				if(e1.estHoriz() && e2.estVertic()) {
 					for (int c1 = 0; c1 < e1.size(); c1++) {
 						for (int c2 = 0; c2 < e2.size(); c2++) {
-						if(e1.getCase(c1) == e2.getCase(c2) && e1.getCase(c1).isVide()) {
+						if(e1.getCase(c1) == e2.getCase(c2) && (e1.getCase(c1).isVide() ||
+								e2.getCase(c2).isPleine())) {
 								contraintes.add(new CroixContrainte(m1, c1, m2, c2));
 							}					
 						}
@@ -60,8 +61,9 @@ public GrillePotentiel fixer(int m, String soluce) {
 		return false;
 	}
 	public boolean propage() {
-		int cpt = 0;
+		
 		while(true) {
+			int cpt = 0;
 			for (IContrainte c : contraintes) {
 				cpt += c.reduce(this);
 			}
@@ -69,7 +71,9 @@ public GrillePotentiel fixer(int m, String soluce) {
 				return false;
 			if(cpt == 0)
 				return true;
+	
 		}
+		
 	}
 	public Dictionnaire get(int i) {
 		return motPot.get(i);
