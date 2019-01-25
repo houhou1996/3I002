@@ -18,21 +18,25 @@ public class GrillePlaces {
 		for (int i = 0; i < grille.nbCol(); i++) {
 			cherchePlaces(getCol(i));
 		}
+
 	}
+
 	public GrillePlaces fixer(int m, String soluce) {
 		GrillePlaces g = new GrillePlaces(grille.copy());	
 		for (int i = 0; i < soluce.length(); i++) {
 			g.getPlaces().get(m).getCase(i).setChar(soluce.charAt(i));
 			}
 		return g;
+		
 	}
-	
-	
 	public List<Emplacement> getPlaces(){
 		return places;
 	}
 	public int getNbHorizontal() {
 		return nbHoriz;
+	}
+	public Grille getGrille() {
+		return grille;
 	}
 	
 	public String toString() {

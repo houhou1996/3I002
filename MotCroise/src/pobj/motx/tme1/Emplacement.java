@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Emplacement {
-	List<Case> lettres;
+	private List<Case> lettres;
 	public Emplacement() {
 		lettres = new ArrayList<Case>();
 	}
@@ -16,6 +16,9 @@ public class Emplacement {
 				str+=case1.getChar();
 		}
 		return str;
+	}
+	public List<Case> getLettres() {
+		return lettres;
 	}
 	public Case getCase(int i) {
 		if(lettres != null)
@@ -29,4 +32,26 @@ public class Emplacement {
 		if(c != null)
 			lettres.add(c);
 	}
+	public boolean estHoriz() {
+		return (this.getCase(0).getCol())<(this.getCase(1).getCol());
+	}
+	public boolean estVertic() {
+		 return (this.getCase(0).getLig())<(this.getCase(1).getLig());
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

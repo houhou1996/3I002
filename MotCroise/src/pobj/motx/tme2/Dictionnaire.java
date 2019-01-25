@@ -112,43 +112,41 @@ public class Dictionnaire {
 
 //	 TME 2 ci dessous
 
-//	public EnsembleLettre charAt(int index) {
-//		if (mots.isEmpty()) {
-//			return new EnsembleLettre();
-//		}
-		// TME 3 : ajout Cache pour charAt
+	public EnsembleLettre charAt(int index) {
+		if (mots.isEmpty())
+			return new EnsembleLettre();
+//		 TME 3 : ajout Cache pour charAt
 //		EnsembleLettre l = getCache()[index];
 //		if (l == null) {
 //
-//			// TME 2 : recherche simple
-//			l = new EnsembleLettre();
-//			for (String mot : mots) {
-//				l.add(mot.charAt(index));
-//			}
-//
-//			getCache()[index] = l;
-//		}
-//		return l;
-//	}
+			// TME 2 : recherche simple
+		EnsembleLettre l = new EnsembleLettre();
+			for (String mot : mots) {
+				l.add(mot.charAt(index));
+			}
 
-//	public int filtreParLettre(EnsembleLettre pot, int index) {
-//		List<String> res = new ArrayList<>();
-//		int cpt = 0;
-//		for (String mot : mots) {
-//			char c = mot.charAt(index);
-//			if (pot.contains(c)) {
-//				res.add(mot);
-//			} else {
-//				cpt++;
-//			}
-//		}
-//		mots = res;
-//		// TME 3 : ajout Cache pour charAt
+//			getCache()[index] = l;
+		
+		return l;
+	}
+
+	public int filtreParLettre(EnsembleLettre pot, int index) {
+		List<String> res = new ArrayList<>();
+		int cpt = 0;
+		for (String mot : mots) {
+			char c = mot.charAt(index);
+			if (pot.contains(c)) {
+				res.add(mot);
+			} else {
+				cpt++;
+			}
+		}
+		mots = res;
+		// TME 3 : ajout Cache pour charAt
 //		if (cpt > 0) {
 //			clearCache();
-//		}
-//		return cpt;
-//	}
+		return cpt;
+	}
 
 	// TME 3 : ajout Cache pour charAt
 //	private EnsembleLettre[] cache;
