@@ -1,6 +1,6 @@
 package pobj.motx.tme3.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -13,8 +13,7 @@ import pobj.motx.tme3.csp.MotX;
 import pobj.motx.tme3.csp.CSPSolver;
 import pobj.motx.tme3.csp.ICSP;
 
-public class GrilleSolverTest {
-
+public class ICSPTest1{
 	@Test
 	public void testHard() {
 		Dictionnaire gut = Dictionnaire.loadDictionnaire("data/frgut.txt");
@@ -39,5 +38,28 @@ public class GrilleSolverTest {
 
 		System.out.println("Solution \n" + solution + " \nCalculée en "+ (System.currentTimeMillis() - timestamp) +" ms " );
 	}
+	@Test
+	public void testEasy() {
+		Dictionnaire gut = Dictionnaire.loadDictionnaire("data/frgut.txt");
+		Grille gr = GrilleLoader.loadGrille("data/easy.grl");
 
+		System.out.println(gr);
+
+		GrillePlaces grille = new GrillePlaces(gr);
+		GrillePotentiel gp = new GrillePotentiel(grille, gut);
+		
+		// System.out.println(gp);
+		// assertTrue(! gp.isDead());
+
+		ICSP problem = new MotX(gp);
+		CSPSolver solver = new CSPSolver();
+
+		// solver.setStrat(new StratFirst());
+		// solver.setStrat(new StratMin());
+		
+		long timestamp = System.currentTimeMillis();
+		ICSP solution = solver.solve(problem);
+
+		System.out.println("Solution \n" + solution + " \nCalculée en "+ (System.currentTimeMillis() - timestamp) +" ms " );
+	}
 }

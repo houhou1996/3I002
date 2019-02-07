@@ -14,9 +14,7 @@ public class GrillePotentielTest {
 
 	public static void testNombrePot(GrillePotentiel gp, int[] expected) {
 		assertEquals(expected.length, gp.getMotsPot().size());
-		System.out.println("size == "+gp.getMotsPot().size()+"\nexpected.length == "+expected.length+" \n");
 		for (int i = 0; i < expected.length; i++) {
-			System.out.println("expected == "+expected[i]+"  size == "+gp.getMotsPot().get(i).size()+"\n");
 			assertEquals(expected[i], gp.getMotsPot().get(i).size());
 		}
 	}
@@ -36,18 +34,18 @@ public class GrillePotentielTest {
 		GrillePlaces grille = new GrillePlaces(gr);
 
 		GrillePotentiel gp = new GrillePotentiel(grille, gut);
-		assertTrue(!gp.isDead());
-		
 
-//		 Ce bloc permet de générer des valeurs attendues pour d'autres tests
-//	 System.out.print("{");
-//		 for (int i = 0 ; i < gp.getMotsPot().size() ; i++) {
-//		 System.out.print(gp.getMotsPot().get(i).size());
-//		 if (i < gp.getMotsPot().size()-1) {
-//		 System.out.print(",");
-//		 }
-//		 }
-//		 System.out.println("}");
+		assertTrue(!gp.isDead());
+
+		// Ce bloc permet de générer des valeurs attendues pour d'autres tests
+		// System.out.print("{");
+		// for (int i = 0 ; i < gp.getMotsPot().size() ; i++) {
+		// System.out.print(gp.getMotsPot().get(i).size());
+		// if (i < gp.getMotsPot().size()-1) {
+		// System.out.print(",");
+		// }
+		// }
+		// System.out.println("}");
 
 		int[] expected = { 5916, 427, 81, 81 };
 

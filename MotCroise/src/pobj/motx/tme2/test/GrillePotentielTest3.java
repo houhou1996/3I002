@@ -12,6 +12,9 @@ import pobj.motx.tme2.GrillePotentiel;
 
 public class GrillePotentielTest3 {
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testMakeEasy2() {
 
@@ -29,11 +32,9 @@ public class GrillePotentielTest3 {
 		GrillePotentiel gp = new GrillePotentiel(grille, gut);
 
 		assertTrue(gp.getMotsPot().get(2).size() > 1);
-
 		GrillePotentiel gp2 = gp.fixer(2, "chats");
-
 		assertTrue(gp.getMotsPot().get(2).size() > 1);
-
+		
 		int[] expected = { 245, 302, 1 };
 		GrillePotentielTest.testNombrePot(gp2, expected);
 

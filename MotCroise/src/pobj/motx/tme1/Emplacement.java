@@ -1,57 +1,84 @@
 package pobj.motx.tme1;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+/**
+ * Un Emplacement est une liste de taille superieur à 2 de case vide de la meme ligne ou de colonne
+ * on peut les remplir avec des lettre pour avoir un mot 
+ * 
+ * @author ALLOUACHE Yacine
+ * @author TAMENE Hocine
+ */
 public class Emplacement {
-	private List<Case> lettres;
-	public Emplacement() {
-		lettres = new ArrayList<Case>();
+
+	/** Une liste de Case*/
+	private List<Case> lettres = new ArrayList<Case>();
+
+	
+
+	/**
+	 * Obtenir la taille de l'emplacement 
+	 * @return la taille de la liste des Cases
+	 */
+	public int size() {
+		return this.lettres.size();
 	}
 
-	public String toString() {
-		String str ="";
-		for (Case case1 : lettres) {
-//			if(!case1.isPleine() && !case1.isVide())
-				str+=case1.getChar();
-		}
-		return str;
+	/**
+	 * Ajouter une Case à l'emplacement 
+	 * 
+	 * @param c une case à ajouter dans l'emplacement
+	 * @return <tt>true</tt> (as specified by {@link Collection#add})
+	 */
+	public boolean add(Case c) {
+		return this.lettres.add(c);
 	}
-	public List<Case> getLettres() {
-		return lettres;
+	
+	/**
+	 * Accède a la liste des cases de l'emplacement
+	 * 
+	 * @return liste des lettres de l'emplacement
+	 */
+	public List<Case> getCases(){
+		return this.lettres;
+	}
+	
+	/**
+	 * Vide la liste des cases
+	 * 
+	 * La liste des cases devient vide apre avoir appeler a cette methode
+	 */
+	public void vider() {
+		this.lettres.clear();
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (Case l : lettres) {
+			sb.append(l.getChar()+";");
+		}
+		return sb.toString();
+	}
+	
+	/**
+	 * Parcour la liste des cases de l'emplacement et renvoit true si il a une case vide false sinon
+	 * 
+	 * @return true si l'emplacement a une case vide false sinon
+	 */
+	public boolean hasCaseVide() {
+		for (Case case1 : lettres) {
+			if (case1.isVide()) {
+				return true;
+			}
+		}
+		return false;
 	}
 	public Case getCase(int i) {
-		if(lettres != null)
-			return lettres.get(i);
-		return null;
+		return lettres.get(i);
+
 	}
-	public int size() {
-		return lettres.size();
-	}
-	public void add(Case c) {
-		if(c != null)
-			lettres.add(c);
-	}
-	public boolean estHoriz() {
-		return (this.getCase(0).getCol())<(this.getCase(1).getCol());
-	}
-	public boolean estVertic() {
-		 return (this.getCase(0).getLig())<(this.getCase(1).getLig());
-	}
+	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

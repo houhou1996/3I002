@@ -1,19 +1,25 @@
 package pobj.motx.tme2;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
+/**
+ * Un ensemble de mots.
+ */
 public class Dictionnaire {
 
 	// stockage des mots
 	private List<String> mots = new ArrayList<>();
+	private EnsembleLettre[] cache ;
 
 	/**
 	 * Ajoute un mot au Dictionnaire, en dernière position.
+	 * 
 	 * @param mot à ajouter, il sera stocké en minuscules (lowerCase)
 	 */
 	public void add(String mot) {
@@ -22,14 +28,16 @@ public class Dictionnaire {
 
 	/**
 	 * Taille du dictionnaire, c'est à dire nombre de mots qu'il contient.
+	 * 
 	 * @return la taille
 	 */
 	public int size() {
 		return mots.size();
 	}
-	
+
 	/**
 	 * Accès au i-eme mot du dictionnaire.
+	 * 
 	 * @param i l'index du mot recherché, compris entre 0 et size-1.
 	 * @return le mot à cet index
 	 */
@@ -39,24 +47,27 @@ public class Dictionnaire {
 
 	/**
 	 * Rend une copie de ce Dictionnaire.
+	 * 
 	 * @return une copie identique de ce Dictionnaire
 	 */
-	public Dictionnaire copy () {
+	public Dictionnaire copy() {
 		Dictionnaire copy = new Dictionnaire();
 		copy.mots.addAll(mots);
-
+		copy.cache = cache;
 		return copy;
 	}
 
 	/**
 	 * Retire les mots qui ne font pas exactement "len" caractères de long.
-	 * Attention cette opération modifie le Dictionnaire, utiliser copy() avant de filtrer pour ne pas perdre d'information.
-	 * @param len la longueur voulue 
+	 * Attention cette opération modifie le Dictionnaire, utiliser copy() avant de
+	 * filtrer pour ne pas perdre d'information.
+	 * 
+	 * @param len la longueur voulue
 	 * @return le nombre de mots supprimés
 	 */
 	public int filtreLongueur(int len) {
 		List<String> cible = new ArrayList<>();
-		int cpt=0;
+		int cpt = 0;
 		for (String mot : mots) {
 			if (mot.length() == len)
 				cible.add(mot);
@@ -67,7 +78,33 @@ public class Dictionnaire {
 		return cpt;
 	}
 
-	
+	/**
+	 * modifiera le dictionnaire pour ne garder que les mots dont la ième lettre est
+	 * égale a c Attention cette opération modifie le Dictionnaire, utiliser copy()
+	 * avant de filtrer pour ne pas perdre d'information.
+	 * 
+	 * @param c une lettre de l'alphabet qui il faut que elle soit la i'iem lettre
+	 *          des mot dans le dictionnaire renvoye
+	 * @param i l'index de la lettre dans les mot
+	 * @return Dictionnaire qui contient des mots qui ont la lettre c a la iéme
+	 *         position
+	 */
+	public int filtreParLettre(char c, int i) {
+		List<String> cible = new ArrayList<>();
+		int cpt = 0;
+		for (String mot : mots) {
+			if (mot.charAt(i) == c)
+				cible.add(mot);
+			else
+				cpt++;
+		}
+		mots = cible;
+		if (cpt > 0) {
+		clearCache();
+	}
+		return cpt;
+	}
+
 	@Override
 	public String toString() {
 		if (size() == 1) {
@@ -77,90 +114,102 @@ public class Dictionnaire {
 		}
 	}
 
+	/**
+	 * Parcour un fichier de mot de dictionnaire Renvoie un Objet Dictionnaire qui
+	 * contient tous les mot de fichier
+	 * 
+	 * @param path le chemin de fichier qui contient le dicionnaire des mots
+	 * @return Un dictionnaire remplie
+	 */
 	public static Dictionnaire loadDictionnaire(String path) {
-		Dictionnaire dico = new Dictionnaire();
+		Dictionnaire dictionnaire = new Dictionnaire();
+		try (BufferedReader bf = new BufferedReader(new FileReader(new File(path)))) {
 
-		try (Stream<String> stream = Files.lines(Paths.get(path))) {
-			stream.forEach(dico::add);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			String line;
 
-		return dico;
-	}
-	public boolean estVide() {
-		return mots.isEmpty();
-	}
-
-	public int filtreParLettre(char expect, int index) {
-		List<String> res = new ArrayList<>();
-		int cpt = 0;
-		for (String mot : mots) {
-			if (mot.charAt(index) == expect) {
-				res.add(mot);
-			} else {
-				cpt++;
+			while ((line = bf.readLine()) != null) {
+				dictionnaire.add(line);
 			}
+
+		} catch (FileNotFoundException e) {
+			System.err.println("File not found !!" + e);
+		} catch (IOException e1) {
+			System.err.println("IOEXCEPTION !!!" + e1);
 		}
-		mots = res;
-		// TME 3 : ajout Cache pour charAt
-//		if (cpt > 0) {
-//			clearCache();
-//		}
+		return dictionnaire;
+
+	}
+
+	/**
+	 * Calcule la liste de la iéme lettre des mots de domaine
+	 * @param i l'index de la position de la lettre
+	 * @return ensemble de lettre possible a l'index i dans le domaine potentiel
+	 */
+	public EnsembleLettre ensembleLettreInPos(int i) {
+		EnsembleLettre ensembleLettre = new EnsembleLettre();
+		for (String mot : mots) {
+			ensembleLettre.add(mot.charAt(i));
+		}
+		return ensembleLettre;
+	}
+
+	/**
+	 * Modifiera le dictionnaire pour garder que les mots qui ont leur iéme lettre
+	 * dans l'ensemble des lettre Attention elle modifiera le dictionnaire danc
+	 * c'est conseiller de faire une copie
+	 * 
+	 * @param i              la position de lattre
+	 * @param ensembleLettre l'ensemble des lettres possibles
+	 * @return nombre de mot filtrer de dictionnaire
+	 */
+	public int filterParEnsembleDeLettrePo(int i, EnsembleLettre ensembleLettre) {
+		int cpt = 0;
+		List<String> cible = new ArrayList<>();
+		for (String mot : this.mots) {
+			if (ensembleLettre.contains(mot.charAt(i))) {
+				cible.add(mot);
+			} else
+				cpt++;
+		}
+		mots = cible;
 		return cpt;
 	}
 
-//	 TME 2 ci dessous
-
+	/**
+	 * Accede et renvoie la liste des mot de dictionnaire
+	 * 
+	 * @return List<String> c'est la liste des mots de dictionnaire
+	 */
+	public List<String> getMots() {
+		return mots;
+	}
+	
 	public EnsembleLettre charAt(int index) {
-		if (mots.isEmpty())
+		if (mots.isEmpty()) {
 			return new EnsembleLettre();
-//		 TME 3 : ajout Cache pour charAt
-//		EnsembleLettre l = getCache()[index];
-//		if (l == null) {
-//
-			// TME 2 : recherche simple
-		EnsembleLettre l = new EnsembleLettre();
+		}
+		EnsembleLettre l = getCache()[index];
+		if (l == null) {
+
+			l = new EnsembleLettre();
 			for (String mot : mots) {
 				l.add(mot.charAt(index));
 			}
 
-//			getCache()[index] = l;
-		
+			getCache()[index] = l;
+		}
 		return l;
 	}
-
-	public int filtreParLettre(EnsembleLettre pot, int index) {
-		List<String> res = new ArrayList<>();
-		int cpt = 0;
-		for (String mot : mots) {
-			char c = mot.charAt(index);
-			if (pot.contains(c)) {
-				res.add(mot);
-			} else {
-				cpt++;
-			}
+	private EnsembleLettre[] getCache() {
+		if (cache == null) {
+			int motSize = mots.get(0).length();
+			cache = new EnsembleLettre[motSize];
 		}
-		mots = res;
-		// TME 3 : ajout Cache pour charAt
-//		if (cpt > 0) {
-//			clearCache();
-		return cpt;
+		return cache;
 	}
 
-	// TME 3 : ajout Cache pour charAt
-//	private EnsembleLettre[] cache;
-//
-//	private EnsembleLettre[] getCache() {
-//		if (cache == null) {
-//			int motSize = mots.get(0).length();
-//			cache = new EnsembleLettre[motSize];
-//		}
-//		return cache;
-//	}
-//
-//	private void clearCache() {
-//		cache = null;
-//	}
-
+	private void clearCache() {
+		cache = null;
+	}
+	
 }

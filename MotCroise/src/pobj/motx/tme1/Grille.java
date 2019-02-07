@@ -1,39 +1,106 @@
 package pobj.motx.tme1;
 
+/**
+ * Une grille represente une Matrice de hauteur*largeur de Cases
+ * 
+ * @author ALLOUACHE Yacine
+ * @author TAMENE Hocine
+ *
+ */
 public class Grille {
-	private Case[][] grille;
 
+	/** Un tableau multidimensionnel de Cases */
+	private Case[][] cases;
+
+	/**
+	 * nombre de ligne de la matrice
+	 */
+	private int hauteur;
+
+	/**
+	 * nombre de colonne de la matrice
+	 */
+	private int largeur;
+
+	/**
+	 * Construit une Grille de taille hauteur*largeur spécifiées de cases vides
+	 * 
+	 * @param hauteur nombre de ligne de la Grille
+	 * @param largeur nombre de Colonne de la Grille
+	 */
 	public Grille(int hauteur, int largeur) {
+		this.hauteur = hauteur;
+		this.largeur = largeur;
 
-		grille = new Case[hauteur][largeur];
-		for (int i = 0; i < hauteur; i++) {
-			for (int j = 0; j < largeur; j++) {
-				grille[i][j] = new Case(i, j, ' ');
+		this.cases = new Case[hauteur][largeur];
+
+		for (int i = 0; i < cases.length; i++) {
+			for (int j = 0; j < cases[0].length; j++) {
+				cases[i][j] = new Case(i, j, ' ');
 			}
 		}
-	}
-	public Case getCase(int lig, int col) {
-		return grille[lig][col];
+
 	}
 
+	/**
+	 * Accede a une case de ligne lig et de la colonne col de la grille
+	 * 
+	 * @param lig la ligne de la case
+	 * @param col la colonne de la case
+	 * @return la case de la ligne lig et de la colonne col
+	 */
+	public Case getCase(int lig, int col) {
+		return this.cases[lig][col];
+	}
+
+	@Override
 	public String toString() {
-		return GrilleLoader.serialize(this, false);
+		StringBuffer sb = new StringBuffer();
+
+		for (int i = 0; i < hauteur; i++) {
+			for (int j = 0; j < largeur; j++) {
+				sb.append(cases[i][j].getChar());
+				sb.append(' ');
+			}
+			sb.append('\n');
+		}
+
+		return sb.toString();
 	}
+
+	/**
+	 * Accede aux nombre des lignes
+	 * 
+	 * @return nombre des lignes de la Grille
+	 */
 	public int nbLig() {
-		return grille.length;
+		return hauteur;
 	}
+
+	/**
+	 * Accede aux nombre des colonnes
+	 * 
+	 * @return nombre des colonnes de la Grille
+	 */
 	public int nbCol() {
-		return grille[0].length;
+		return this.largeur;
 	}
+
+	/**
+	 * 
+	 * Crée et retourne une copie a cette grille
+	 * 
+	 * @return une copie de cette Grille
+	 */
 	public Grille copy() {
-		Grille g = new Grille(nbLig(),nbCol());
-		for (int i = 0; i < nbLig(); i++) {
-			for (int j = 0; j < nbCol(); j++) {
-					g.getCase(i, j).setChar(getCase(i, j).getChar());
-				
+
+		Grille g = new Grille(hauteur, largeur);
+		for (int i = 0; i < hauteur; i++) {
+			for (int j = 0; j < largeur; j++) {
+				g.cases[i][j] = new Case(i, j, this.cases[i][j].getChar());
 			}
 		}
 		return g;
 	}
-	
+
 }

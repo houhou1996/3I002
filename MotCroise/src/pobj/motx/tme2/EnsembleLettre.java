@@ -1,30 +1,50 @@
 package pobj.motx.tme2;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
-public class EnsembleLettre {
+/**
+ * @author ALLOUACHE Yacine
+ * @author TAMENE Hocine
+ */
+
+/**
+ * C'est une liste de Caractere
+ * 
+ */
+public class EnsembleLettre extends ArrayList<Character> {
+
+	private static final long serialVersionUID = 1L;
+
 	
-	List<Character> ensemble;
 	
+	/**
+	 *Construit une liste vide qui prend des caractere  
+	 */
 	public EnsembleLettre() {
-		ensemble = new ArrayList<Character>();
+		
 	}
-	public void add(char c) {
-		if(!ensemble.contains(c))
-			ensemble.add(c);
+
+	/**
+	 * 
+	 * Construit une liste qui contient la collection de character passe en parametre
+	 * 
+	 * @param c c'est une collection de caractere 
+	 */
+	EnsembleLettre(Collection<? extends Character> c) {
+		super(c);
 	}
-	public int size() {
-		return ensemble.size();
+	
+	/**
+	 * Ajouter un caractere dans la liste sans doublon
+	 */
+	@Override
+	public boolean add(Character e) {
+		if (!this.contains(e)) {
+			return super.add(e);
+		} else
+			return false;
 	}
-	public boolean contains(char c ) {
-		return ensemble.contains(c);
-	}
-public EnsembleLettre intersection(EnsembleLettre e2){
-	EnsembleLettre liste = new EnsembleLettre();
-	for (Character c : ensemble) {
-		if(e2.contains(c))
-			liste.add(c);
-		}
-	return liste;
-}
+	
+
 }
